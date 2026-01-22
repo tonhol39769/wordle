@@ -1,0 +1,63 @@
+body {
+    background: #121213;
+    color: white;
+    font-family: Arial;
+    text-align: center;
+}
+
+#grade {
+    display: grid;
+    grid-template-rows: repeat(6, 60px);
+    gap: 6px;
+    justify-content: center;
+    margin: 20px;
+}
+
+.linha-grade {
+    display: grid;
+    grid-template-columns: repeat(5, 60px);
+    gap: 6px;
+}
+
+.celula {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #3a3a3c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+}
+
+.certo { background: #538d4e; }
+.quase { background: #b59f3b; }
+.errado { background: #3a3a3c; }
+
+#teclado {
+    margin-top: 10px;
+}
+
+.linha {
+    display: flex;
+    justify-content: center;
+}
+
+#teclado button {
+    margin: 2px;
+    padding: 12px;
+    background: #818384;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    min-width: 40px;
+}
+
+#teclado button.certo { background: #538d4e; }
+#teclado button.quase { background: #b59f3b; }
+#teclado button.errado { background: #3a3a3c; }
+
+#imagem {
+    margin-top: 20px;
+    width: 200px;
+}
