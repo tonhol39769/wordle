@@ -145,7 +145,7 @@ function enviar() {
 
     if (entradaAtual === resposta) {
         mensagem.innerText = "🎉 Você acertou!";
-        imagem.src = `imagens/${resposta.toLowerCase()}.png`;
+        imagem.src = `./imagens/${resposta.toLowerCase()}.png`;
         imagem.hidden = false;
         return;
     }
@@ -197,3 +197,4 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
