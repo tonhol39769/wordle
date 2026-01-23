@@ -200,10 +200,10 @@ const personagens = [
         nome: "CALEB",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Habilidoso com tecnologia",
+            "Escripta",
+            "Participou: Calamidade",
+            "Morto"
         ]
     },
      {
@@ -857,6 +857,7 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
 
