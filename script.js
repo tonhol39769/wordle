@@ -142,70 +142,58 @@ const personagens = [
         nome: "JASER",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Medo",
+            "Olhos iguais",
+            "Participou: Enigma do Medo",
+            "Inexistente"
         ]
     },
      {
         nome: "NANDO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Portador de Reliquia (anteriormente)",
+            "Participou: Hexatombe",
+            "Morto"
         ]
     },
      {
         nome: "MOSTO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Lutador",
+            "Segurança",
+            "Participou: Hexatombe",
+            "Morto"
         ]
     },
      {
         nome: "BARTO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
-        ]
-    },
-     {
-        nome: "JOREL",
-        dicas: [
-            "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Pescador",
+            "Participou: Segredo na Ilha",
+            "Morto"
         ]
     },
      {
         nome: "CAITO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Portador de Reliquia (anteriormente)",
+            "Personalidade: Mimado",
+            "Participou: Hexatombe",
+            "Morto"
         ]
     },
      {
         nome: "GAMBA",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Animal",
+            "Escripta",
+            "Participou: Calamidade",
+            "Morto"
         ]
     },
      {
@@ -869,6 +857,7 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
 
