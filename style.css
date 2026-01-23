@@ -1,62 +1,75 @@
-* {
-  box-sizing: border-box;
-}
-
 body {
-  background: #121213;
-  color: white;
-  font-family: Arial, Helvetica, sans-serif;
+  background: #0e0e0e;
+  color: #fff;
+  font-family: Arial, sans-serif;
   text-align: center;
-  margin: 0;
-  padding: 0;
 }
 
-/* TÍTULO */
 h1 {
-  margin: 20px 0 10px;
-}
-
-/* DICA */
-#dica {
-  min-height: 24px;
   margin-bottom: 10px;
-  color: #d7dadc;
 }
 
-/* GRADE */
-#grade {
-  display: grid;
-  gap: 8px;
+#modos {
+  margin-bottom: 15px;
+}
+
+#modos button {
+  padding: 8px 14px;
+  margin: 0 5px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+#mensagem {
+  margin-top: 10px;
+  font-size: 18px;
+}
+
+#dica {
+  margin: 10px 0;
+  opacity: 0.8;
+}
+
+/* ===== GRADES ===== */
+
+.grade-container {
+  display: flex;
   justify-content: center;
-  margin: 20px auto;
+  gap: 20px;
+  margin: 20px 0;
 }
 
-/* LINHA */
-.linha {
+.bloco {
+  display: grid;
+  gap: 6px;
+}
+
+.linha-grade {
   display: flex;
   gap: 6px;
 }
 
-/* CÉLULA */
-.box {
-  width: 48px;
-  height: 48px;
-  border: 2px solid #3a3a3c;
+.celula {
+  width: 50px;
+  height: 50px;
+  border: 2px solid #444;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
   font-size: 22px;
   font-weight: bold;
   text-transform: uppercase;
 }
 
-/* ESTADOS */
-.correto {
+/* RESULTADOS */
+.certo {
   background: #538d4e;
   border-color: #538d4e;
 }
 
-.presente {
+.quase {
   background: #b59f3b;
   border-color: #b59f3b;
 }
@@ -66,71 +79,37 @@ h1 {
   border-color: #3a3a3c;
 }
 
-/* TECLADO */
+/* ===== TECLADO ===== */
+
 #teclado {
-  margin: 20px auto;
+  margin-top: 20px;
 }
 
 #teclado div {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
 }
 
-/* TECLA */
 .key {
-  padding: 12px;
-  margin: 3px;
-  background: #818384;
+  padding: 10px 12px;
+  margin: 2px;
+  border-radius: 5px;
   border: none;
-  color: black;
-  font-weight: bold;
   cursor: pointer;
-  border-radius: 4px;
+  font-weight: bold;
 }
 
-/* TECLAS ESPECIAIS */
 .key.special {
-  background: #565758;
-  color: white;
+  background: #888;
 }
 
-/* TECLADO COLORIDO */
-.key.correto {
+.key.certo {
   background: #538d4e;
-  color: white;
 }
 
-.key.presente {
+.key.quase {
   background: #b59f3b;
-  color: white;
 }
 
 .key.errado {
   background: #3a3a3c;
-  color: white;
 }
-
-/* SHAKE */
-@keyframes shake {
-  0% { transform: translateX(0); }
-  25% { transform: translateX(-6px); }
-  50% { transform: translateX(6px); }
-  75% { transform: translateX(-6px); }
-  100% { transform: translateX(0); }
-}
-
-.shake {
-  animation: shake 0.4s;
-}
-#modos {
-  margin: 10px 0;
-}
-
-#modos button {
-  padding: 8px 14px;
-  margin: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  border-radius: 4px;
-  border: none;
-}
-
