@@ -198,3 +198,4 @@ function verificarMeiaNoite() {
     }, 1000);
 }
 
+
