@@ -818,3 +818,6 @@ function enviar() {
   let acertos = 0;
 
   grades.forEach((bloco, idx) => {
+
+window.enviar = enviar;
+alert("ENTER conectado");
