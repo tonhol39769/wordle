@@ -857,6 +857,10 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+let modo = 1; // 1, 2 ou 4
+let respostas = [];
+let grades = [];
+
 
 
 
