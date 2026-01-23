@@ -1,3 +1,6 @@
+const hoje = new Date().toISOString().slice(0, 10);
+const seedDiaria = Number(hoje.replace(/-/g, ""));
+
 /* =======================
    CONFIG
 ======================= */
@@ -719,17 +722,22 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =======================
    SORTEIO DE PERSONAGENS
 ======================= */
-function sortearPersonagens(qtd) {
-  const indices = [];
+function personagensDoDia(qtd) {
+  const usados = new Set();
+  const resultado = [];
 
-  while (indices.length < qtd) {
-    const r = Math.floor(Math.random() * personagens.length);
-    if (!indices.includes(r)) {
-      indices.push(r);
+  let seed = seedDiaria + qtd * 100;
+
+  while (resultado.length < qtd) {
+    const index = seed % personagens.length;
+    if (!usados.has(index)) {
+      usados.add(index);
+      resultado.push(personagens[index].nome);
     }
+    seed += 7;
   }
 
-  return indices.map(i => personagens[i].nome);
+  return resultado;
 }
 
 /* =======================
@@ -737,11 +745,10 @@ function sortearPersonagens(qtd) {
 ======================= */
 function iniciarModo(qtd) {
   modo = qtd;
-  respostas = [];
-  grades = [];
   tentativaAtual = 0;
   entradaAtual = "";
-  jogoEncerrado = false;
+  grades = [];
+  respostas = [];
 
   const container = document.getElementById("grade");
   container.innerHTML = "";
@@ -749,15 +756,13 @@ function iniciarModo(qtd) {
   document.getElementById("mensagem").innerText = "";
   document.getElementById("dica").innerText = "";
 
-  // 🔥 SORTEIA RESPOSTAS DIFERENTES
-  respostas = sortearPersonagens(modo);
+  respostas = personagensDoDia(qtd);
 
-  // cria as grades
-  for (let i = 0; i < modo; i++) {
+  for (let i = 0; i < qtd; i++) {
     criarGrade();
   }
 
-  salvarProgresso();
+  carregarProgresso();
 }
 
 
@@ -927,16 +932,44 @@ function shake() {
 /* =======================
    STORAGE
 ======================= */
-function salvarProgresso(ganhou = false) {
-  localStorage.setItem("paranordle", JSON.stringify({
+function salvarProgresso() {
+  const dados = {
     data: hoje,
+    modo,
     tentativaAtual,
-    ganhou
-  }));
+    grades: grades.map(bloco =>
+      [...bloco.querySelectorAll(".linha-grade")].map(l =>
+        [...l.children].map(c => c.innerText)
+      )
+    )
+  };
+
+  localStorage.setItem(`paranordle_${modo}`, JSON.stringify(dados));
+}
+
+function carregarProgresso() {
+  const salvo = JSON.parse(localStorage.getItem(`paranordle_${modo}`));
+  if (!salvo || salvo.data !== hoje) return;
+
+  tentativaAtual = salvo.tentativaAtual || 0;
+
+  salvo.grades.forEach((linhas, g) => {
+    linhas.forEach((letras, l) => {
+      letras.forEach((letra, c) => {
+        grades[g].children[l].children[c].innerText = letra;
+      });
+    });
+  });
 }
 
 function verificarDia() {
-  const salvo = JSON.parse(localStorage.getItem("paranordle"));
-  if (salvo && salvo.data !== hoje) localStorage.removeItem("paranordle");
+  Object.keys(localStorage).forEach(k => {
+    if (k.startsWith("paranordle_")) {
+      const d = JSON.parse(localStorage.getItem(k));
+      if (d.data !== hoje) localStorage.removeItem(k);
+    }
+  });
 }
+
+
 
