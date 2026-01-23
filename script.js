@@ -1,3 +1,6 @@
+let modo = 1; // 1, 2 ou 4
+let respostas = [];
+let grades = [];
 const personagens = [
   {
         nome: "DANTE",
@@ -782,7 +785,24 @@ function atualizarLinha() {
 function enviar() {
     if (entradaAtual.length !== 5) return;
 
-    const linha = grade.children[tentativaAtual];
+    grades.forEach((bloco, index) => {
+    const resposta = respostas[index];
+    const linha = bloco.children[tentativaAtual];
+
+    for (let i = 0; i < 5; i++) {
+        const letra = entradaAtual[i];
+        const caixa = linha.children[i];
+
+        if (letra === resposta[i]) {
+            caixa.classList.add("certo");
+        } else if (resposta.includes(letra)) {
+            caixa.classList.add("quase");
+        } else {
+            caixa.classList.add("errado");
+        }
+    }
+});
+
 
     for (let i = 0; i < 5; i++) {
         const letra = entradaAtual[i];
@@ -809,6 +829,41 @@ function enviar() {
         imagem.hidden = false;
         return;
     }
+function iniciarModo(qtd) {
+    modo = qtd;
+    respostas = [];
+    grades = [];
+
+    document.getElementById("grade").innerHTML = "";
+
+    for (let i = 0; i < qtd; i++) {
+        const personagem = personagens[(indice + i) % personagens.length];
+        respostas.push(personagem.nome);
+        criarGradeMultipla(i);
+    }
+}
+function criarGradeMultipla(i) {
+    const container = document.getElementById("grade");
+
+    const bloco = document.createElement("div");
+    bloco.className = "bloco";
+
+    for (let l = 0; l < maxTentativas; l++) {
+        const linha = document.createElement("div");
+        linha.className = "linha-grade";
+
+        for (let c = 0; c < 5; c++) {
+            const div = document.createElement("div");
+            div.className = "celula";
+            linha.appendChild(div);
+        }
+
+        bloco.appendChild(linha);
+    }
+
+    container.appendChild(bloco);
+    grades.push(bloco);
+}
 
     tentativaAtual++;
     entradaAtual = "";
@@ -857,9 +912,9 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
-let modo = 1; // 1, 2 ou 4
-let respostas = [];
-let grades = [];
+iniciarModo(1);
+
+
 
 
 
