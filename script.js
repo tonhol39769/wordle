@@ -956,11 +956,14 @@ function carregarProgresso() {
   salvo.grades.forEach((linhas, g) => {
     linhas.forEach((letras, l) => {
       letras.forEach((letra, c) => {
-        grades[g].children[l].children[c].innerText = letra;
+        if (grade[l] && grade[l][c]) {
+          grade[l][c].innerText = letra;
+        }
       });
     });
   });
 }
+
 
 function verificarDia() {
   Object.keys(localStorage).forEach(k => {
@@ -970,6 +973,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
