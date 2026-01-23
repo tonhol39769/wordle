@@ -6,7 +6,6 @@ const seedDiaria = Number(hoje.replace(/-/g, ""));
 ======================= */
 const TAMANHO = 5;
 const MAX_TENTATIVAS = 6;
-const hoje = new Date().toISOString().slice(0, 10);
 
 let modo = 1;
 let tentativaAtual = 0;
@@ -956,9 +955,11 @@ function carregarProgresso() {
   salvo.grades.forEach((linhas, g) => {
     linhas.forEach((letras, l) => {
       letras.forEach((letra, c) => {
-        if (grade[l] && grade[l][c]) {
-          grade[l][c].innerText = letra;
-        }
+        const celula = grades[g]
+          ?.children[l]
+          ?.children[c];
+
+        if (celula) celula.innerText = letra;
       });
     });
   });
@@ -973,6 +974,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
