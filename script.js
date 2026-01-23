@@ -1,9 +1,22 @@
+/* ===================== CONFIG ===================== */
+
 let modo = 1; // 1 = normal | 2 = dueto | 4 = quarteto
 let respostas = [];
 let grades = [];
 
+const maxTentativas = 6;
+let tentativaAtual = 0;
+let entradaAtual = "";
+
+const teclado = document.getElementById("teclado");
+const container = document.getElementById("grade");
+const mensagem = document.getElementById("mensagem");
+const dica = document.getElementById("dica");
+
+/* ===================== PERSONAGENS ===================== */
+
 const personagens = [
-    {
+  {
         nome: "DANTE",
         dicas: [
             "Personagem masculino",
@@ -689,21 +702,30 @@ const personagens = [
             "Participou: Natal Macabro",
             "Vivo"
         ]
-    }
+    },
+     {
+        nome: "JOREL",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
 ];
 
-const hoje = new Date().toISOString().split("T")[0];
-const indiceBase = Number(hoje.replaceAll("-", ""));
+/* ===================== DIA ===================== */
 
-let tentativaAtual = 0;
-const maxTentativas = 6;
-let entradaAtual = "";
+function indiceDoDia() {
+  const inicio = new Date("2024-01-01");
+  const hoje = new Date();
+  return Math.floor((hoje - inicio) / (1000 * 60 * 60 * 24));
+}
 
-const teclado = document.getElementById("teclado");
-const container = document.getElementById("grade");
-const mensagem = document.getElementById("mensagem");
+const indiceBase = indiceDoDia();
 
-/* ===================== INÍCIO ===================== */
+/* ===================== INICIAR ===================== */
 
 function iniciarModo(qtd) {
   modo = qtd;
@@ -712,6 +734,7 @@ function iniciarModo(qtd) {
   tentativaAtual = 0;
   entradaAtual = "";
   mensagem.innerText = "";
+  dica.innerText = "";
   container.innerHTML = "";
 
   for (let i = 0; i < modo; i++) {
@@ -719,6 +742,8 @@ function iniciarModo(qtd) {
     respostas.push(personagem.nome);
     criarGrade();
   }
+
+  salvarProgresso();
 }
 
 /* ===================== GRADE ===================== */
@@ -747,7 +772,7 @@ function criarGrade() {
 
 function criarTeclado() {
   teclado.innerHTML = "";
-  ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"].forEach((linha, i) => {
+  ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"].forEach((linha, i) => {
     const div = document.createElement("div");
 
     if (i === 2) div.innerHTML += `<button onclick="apagar()">⌫</button>`;
@@ -756,7 +781,7 @@ function criarTeclado() {
       div.innerHTML += `<button onclick="clicarLetra('${l}')">${l}</button>`
     );
 
-    if (i === 2) div.innerHTML += `<button >ENTER</button>`;
+    if (i === 2) div.innerHTML += `<button onclick="enviar()">ENTER</button>`;
 
     teclado.appendChild(div);
   });
@@ -793,41 +818,3 @@ function enviar() {
   let acertos = 0;
 
   grades.forEach((bloco, idx) => {
-    const resposta = respostas[idx];
-    const linha = bloco.children[tentativaAtual];
-
-    for (let i = 0; i < 5; i++) {
-      const letra = entradaAtual[i];
-      const celula = linha.children[i];
-
-      if (letra === resposta[i]) {
-        celula.classList.add("certo");
-      } else if (resposta.includes(letra)) {
-        celula.classList.add("quase");
-      } else {
-        celula.classList.add("errado");
-      }
-    }
-
-    if (entradaAtual === resposta) acertos++;
-  });
-
-  if (acertos === modo) {
-    mensagem.innerText = "🎉 VOCÊ ACERTOU TODAS!";
-    return;
-  }
-
-  tentativaAtual++;
-  entradaAtual = "";
-
-  if (tentativaAtual === maxTentativas) {
-    mensagem.innerText = "❌ Fim de jogo!";
-  }
-}
-
-/* ===================== START ===================== */
-
-criarTeclado();
-iniciarModo(1); // troca para 2 ou 4
-
-
