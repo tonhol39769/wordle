@@ -121,3 +121,16 @@ h1 {
 .shake {
   animation: shake 0.4s;
 }
+#modos {
+  margin: 10px 0;
+}
+
+#modos button {
+  padding: 8px 14px;
+  margin: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  border: none;
+}
+
