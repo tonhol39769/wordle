@@ -53,18 +53,18 @@ const personagens = [
         nome: "JORGE",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
+            "Atleta",
+            "Sobrevivente",
             "Participou: Natal Macabro",
-            "Vivo"
+            "Morto"
         ]
     },
      {
         nome: "BRENO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
+            "Atleta",
+            "Jogador de Basquete",
             "Participou: Natal Macabro",
             "Vivo"
         ]
@@ -73,20 +73,20 @@ const personagens = [
         nome: "BRUNO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Ocultista",
+            "Escripta",
+            "Participou: Desconjuração",
+            "Morto. Tem uma relação forte com o Kaiser"
         ]
     },
      {
         nome: "DIABO",
         dicas: [
-            "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Personagem sem sexo",
+            "Sangue",
+            "Participou: Calamidade e Hexatombe",
+            "Reliquia",
+            "Despertado"
         ]
     },
      {
@@ -870,6 +870,7 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
 
