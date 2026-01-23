@@ -819,6 +819,7 @@ function criarTeclado() {
    INPUT
 ======================= */
 function digitar(letra) {
+   if (!grades.length) return;
   if (jogoEncerrado || entradaAtual.length >= TAMANHO) return;
 
   grades.forEach(bloco => {
@@ -842,8 +843,13 @@ function apagar() {
    ENVIAR
 ======================= */
 function enviar() {
+  // ✅ Evita erro caso a grade ainda não tenha sido criada
+  if (!grades.length) return;
+
+  // Verifica se a entrada tem o tamanho correto
   if (entradaAtual.length !== TAMANHO) return shake();
 
+  // Verifica se a palavra existe na lista de personagens
   if (!personagens.some(p => p.nome === entradaAtual)) return shake();
 
   let acertos = 0;
@@ -864,6 +870,40 @@ function enviar() {
           celula.classList.add("quase");
           marcarTecla(letra, "quase");
         } else {
+          celula.classList.add("errado");
+          marcarTecla(letra, "errado");
+        }
+      }, i * 120);
+    });
+
+    if (entradaAtual === resposta) acertos++;
+  });
+
+  atualizarTeclado();
+  mostrarDica();
+
+  if (acertos === modo) {
+    document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
+    jogoEncerrado = true;
+    marcarModoConcluido(modo);
+    salvarProgresso();
+    atualizarBotoesModo();
+    return;
+  }
+
+  tentativaAtual++;
+  entradaAtual = "";
+
+  // Marca o modo como concluído mesmo se acabar as tentativas
+  if (tentativaAtual >= MAX_TENTATIVAS) {
+    document.getElementById("mensagem").innerText = "❌ Fim de jogo";
+    jogoEncerrado = true;
+    marcarModoConcluido(modo); // <-- aqui
+  }
+
+  salvarProgresso(false);
+}
+lse {
           celula.classList.add("errado");
           marcarTecla(letra, "errado");
         }
@@ -972,7 +1012,7 @@ function marcarModoConcluido(modo) {
 
 function modoLiberado(modo) {
   const dados = JSON.parse(localStorage.getItem("modos_concluidos")) || {};
-  return dados[modo - 1] === hoje || modo === 1;
+  return modo === 1 || dados[modo - 1] === hoje;
 }
 
 /* =======================
@@ -1021,6 +1061,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
