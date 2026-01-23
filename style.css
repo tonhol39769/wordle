@@ -22,6 +22,11 @@ h1 {
   font-weight: bold;
 }
 
+#modos button.bloqueado {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 #mensagem {
   margin-top: 10px;
   font-size: 18px;
@@ -113,3 +118,4 @@ h1 {
 .key.errado {
   background: #3a3a3c;
 }
+
