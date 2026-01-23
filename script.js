@@ -1,26 +1,24 @@
 /* =======================
-   CONFIGURAÇÕES GERAIS
+   CONFIG
 ======================= */
 const TAMANHO = 5;
 const MAX_TENTATIVAS = 6;
-
 const hoje = new Date().toISOString().slice(0, 10);
 
-let modo = "normal";
-let palavraSecreta = "";
+let modo = 1;
 let tentativaAtual = 0;
-let colunaAtual = 0;
+let entradaAtual = "";
 let jogoEncerrado = false;
 
-let grade = [];
 let respostas = [];
+let grades = [];
 let estadoTeclado = {};
 
 /* =======================
-   PERSONAGENS + DICAS
+   PERSONAGENS
 ======================= */
 const personagens = [
-   {
+     {
         nome: "DANTE",
         dicas: [
             "Personagem masculino",
@@ -710,56 +708,41 @@ const personagens = [
 ];
 
 /* =======================
-   INÍCIO
+   INIT
 ======================= */
 document.addEventListener("DOMContentLoaded", () => {
-  criarTeclado();
   verificarDia();
-  carregarProgresso();
-  iniciarModo("normal");
+  criarTeclado();
+  iniciarModo(1);
 });
 
 /* =======================
-   MODO DE JOGO
+   MODO
 ======================= */
 function iniciarModo(qtd) {
   modo = qtd;
-  respostas = [];
-  grades = [];
   tentativaAtual = 0;
   entradaAtual = "";
+  jogoEncerrado = false;
 
-  const container = document.getElementById("grade");
-  container.innerHTML = "";
+  respostas = [];
+  grades = [];
+  estadoTeclado = {};
 
+  document.getElementById("grade").innerHTML = "";
   document.getElementById("mensagem").innerText = "";
   document.getElementById("dica").innerText = "";
 
+  const seed = parseInt(hoje.replace(/-/g, ""));
+  const base = seed % personagens.length;
+
   for (let i = 0; i < modo; i++) {
-    const personagem = personagens[(indiceBase + i) % personagens.length];
-    respostas.push(personagem.nome);
+    respostas.push(personagens[(base + i) % personagens.length].nome);
     criarGrade();
   }
 
-  salvarProgresso();
-}
-
-
-  document.getElementById("mensagem").innerText = "";
-  document.getElementById("dica").innerHTML = "";
-
-  gerarPalavra();
-  criarGrade();
   atualizarTeclado();
-}
-
-/* =======================
-   PALAVRA DO DIA
-======================= */
-function gerarPalavra() {
-  const seed = parseInt(hoje.replace(/-/g, ""));
-  const index = seed % personagens.length;
-  palavraSecreta = personagens[index].nome;
+  salvarProgresso();
 }
 
 /* =======================
@@ -769,11 +752,11 @@ function criarGrade() {
   const bloco = document.createElement("div");
   bloco.className = "bloco";
 
-  for (let l = 0; l < maxTentativas; l++) {
+  for (let l = 0; l < MAX_TENTATIVAS; l++) {
     const linha = document.createElement("div");
     linha.className = "linha-grade";
 
-    for (let c = 0; c < 5; c++) {
+    for (let c = 0; c < TAMANHO; c++) {
       const celula = document.createElement("div");
       celula.className = "celula";
       linha.appendChild(celula);
@@ -786,7 +769,6 @@ function criarGrade() {
   grades.push(bloco);
 }
 
-
 /* =======================
    TECLADO
 ======================= */
@@ -798,17 +780,13 @@ function criarTeclado() {
   layout.forEach((linha, i) => {
     const div = document.createElement("div");
 
-    if (i === 2) {
-      div.innerHTML += `<button class="key special" onclick="enviar()">ENTER</button>`;
-    }
+    if (i === 2) div.innerHTML += `<button class="key special" onclick="enviar()">ENTER</button>`;
 
-    linha.split("").forEach(letra => {
-      div.innerHTML += `<button class="key" onclick="digitar('${letra}')">${letra}</button>`;
-    });
+    linha.split("").forEach(l =>
+      div.innerHTML += `<button class="key" onclick="digitar('${l}')">${l}</button>`
+    );
 
-    if (i === 2) {
-      div.innerHTML += `<button class="key special" onclick="apagar()">⌫</button>`;
-    }
+    if (i === 2) div.innerHTML += `<button class="key special" onclick="apagar()">⌫</button>`;
 
     teclado.appendChild(div);
   });
@@ -818,30 +796,32 @@ function criarTeclado() {
    INPUT
 ======================= */
 function digitar(letra) {
-  if (jogoEncerrado || colunaAtual >= TAMANHO) return;
+  if (jogoEncerrado || entradaAtual.length >= TAMANHO) return;
 
-  grade[tentativaAtual][colunaAtual].innerText = letra;
-  colunaAtual++;
+  grades.forEach(bloco => {
+    bloco.children[tentativaAtual].children[entradaAtual.length].innerText = letra;
+  });
+
+  entradaAtual += letra;
 }
 
 function apagar() {
-  if (jogoEncerrado || colunaAtual === 0) return;
+  if (jogoEncerrado || entradaAtual.length === 0) return;
 
-  colunaAtual--;
-  grade[tentativaAtual][colunaAtual].innerText = "";
+  entradaAtual = entradaAtual.slice(0, -1);
+
+  grades.forEach(bloco => {
+    bloco.children[tentativaAtual].children[entradaAtual.length].innerText = "";
+  });
 }
 
+/* =======================
+   ENVIAR
+======================= */
 function enviar() {
-  if (entradaAtual.length !== 5) {
-    animarShake();
-    return;
-  }
+  if (entradaAtual.length !== TAMANHO) return shake();
 
-  // palavra inválida
-  if (!personagens.some(p => p.nome === entradaAtual)) {
-    animarShake();
-    return;
-  }
+  if (!personagens.some(p => p.nome === entradaAtual)) return shake();
 
   let acertos = 0;
 
@@ -849,10 +829,8 @@ function enviar() {
     const resposta = respostas[idx];
     const linha = bloco.children[tentativaAtual];
 
-    for (let i = 0; i < 5; i++) {
-      const letra = entradaAtual[i];
+    [...entradaAtual].forEach((letra, i) => {
       const celula = linha.children[i];
-
       celula.classList.add("flip");
 
       setTimeout(() => {
@@ -866,80 +844,28 @@ function enviar() {
           celula.classList.add("errado");
           marcarTecla(letra, "errado");
         }
-      }, i * 100);
-    }
+      }, i * 120);
+    });
 
     if (entradaAtual === resposta) acertos++;
   });
 
-  salvarProgresso();
+  atualizarTeclado();
+  mostrarDica();
 
   if (acertos === modo) {
-    document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU TODAS!";
-    mostrarImagem();
+    document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
+    jogoEncerrado = true;
+    salvarProgresso(true);
     return;
   }
 
   tentativaAtual++;
   entradaAtual = "";
 
-  if (tentativaAtual === maxTentativas) {
-    document.getElementById("mensagem").innerText = "❌ Fim de jogo!";
-  }
-}
-
-/* =======================
-   VALIDAÇÃO
-======================= */
-function validarTentativa(tentativa) {
-  let resultado = Array(TAMANHO).fill("errado");
-  let usada = palavraSecreta.split("");
-
-  for (let i = 0; i < TAMANHO; i++) {
-    if (tentativa[i] === palavraSecreta[i]) {
-      resultado[i] = "correto";
-      usada[i] = null;
-    }
-  }
-
-  for (let i = 0; i < TAMANHO; i++) {
-    if (resultado[i] === "correto") continue;
-    const idx = usada.indexOf(tentativa[i]);
-    if (idx !== -1) {
-      resultado[i] = "presente";
-      usada[idx] = null;
-    }
-  }
-
-  aplicarResultado(resultado, tentativa);
-}
-
-/* =======================
-   RESULTADO
-======================= */
-function aplicarResultado(resultado, tentativa) {
-  resultado.forEach((res, i) => {
-    grade[tentativaAtual][i].classList.add(res);
-    atualizarEstadoTeclado(tentativa[i], res);
-  });
-
-  atualizarTeclado();
-
-  if (tentativa === palavraSecreta) {
-    jogoEncerrado = true;
-    document.getElementById("mensagem").innerText = "🎉 Você acertou!";
-    salvarProgresso(true);
-    return;
-  }
-
-  tentativaAtual++;
-  colunaAtual = 0;
-
-  mostrarDica();
-
   if (tentativaAtual >= MAX_TENTATIVAS) {
+    document.getElementById("mensagem").innerText = "❌ Fim de jogo";
     jogoEncerrado = true;
-    document.getElementById("mensagem").innerText = `❌ Era ${palavraSecreta}`;
   }
 
   salvarProgresso(false);
@@ -949,18 +875,16 @@ function aplicarResultado(resultado, tentativa) {
    DICAS
 ======================= */
 function mostrarDica() {
-  const personagem = personagens.find(p => p.nome === palavraSecreta);
-  const dica = personagem.dicas[tentativaAtual - 1];
-  if (dica) {
-    document.getElementById("dica").innerHTML = `🕯️ ${dica}`;
-  }
+  const personagem = personagens.find(p => p.nome === respostas[0]);
+  const dica = personagem?.dicas[tentativaAtual - 1];
+  if (dica) document.getElementById("dica").innerText = "🕯️ " + dica;
 }
 
 /* =======================
    TECLADO CORES
 ======================= */
-function atualizarEstadoTeclado(letra, estado) {
-  const prioridade = { correto: 3, presente: 2, errado: 1 };
+function marcarTecla(letra, estado) {
+  const prioridade = { certo: 3, quase: 2, errado: 1 };
   if (!estadoTeclado[letra] || prioridade[estado] > prioridade[estadoTeclado[letra]]) {
     estadoTeclado[letra] = estado;
   }
@@ -968,50 +892,34 @@ function atualizarEstadoTeclado(letra, estado) {
 
 function atualizarTeclado() {
   document.querySelectorAll(".key").forEach(btn => {
+    btn.classList.remove("certo", "quase", "errado");
     const l = btn.innerText;
-    btn.classList.remove("correto", "presente", "errado");
     if (estadoTeclado[l]) btn.classList.add(estadoTeclado[l]);
   });
 }
 
 /* =======================
-   ANIMAÇÕES
+   SHAKE
 ======================= */
-function animarShake(linha) {
-  const row = document.querySelectorAll(".linha")[linha];
-  row.classList.add("shake");
-  setTimeout(() => row.classList.remove("shake"), 400);
+function shake() {
+  document.querySelectorAll(".linha-grade")[tentativaAtual]?.classList.add("shake");
+  setTimeout(() =>
+    document.querySelectorAll(".linha-grade")[tentativaAtual]?.classList.remove("shake")
+  , 400);
 }
 
 /* =======================
-   SALVAR / CARREGAR
+   STORAGE
 ======================= */
-function salvarProgresso(ganhou) {
-  const dados = {
+function salvarProgresso(ganhou = false) {
+  localStorage.setItem("paranordle", JSON.stringify({
     data: hoje,
-    tentativas: tentativaAtual,
+    tentativaAtual,
     ganhou
-  };
-  localStorage.setItem("paranordle", JSON.stringify(dados));
+  }));
 }
 
-function carregarProgresso() {
-  const salvo = JSON.parse(localStorage.getItem("paranordle"));
-  if (!salvo || salvo.data !== hoje) return;
-}
-
-/* =======================
-   RESET DIÁRIO
-======================= */
 function verificarDia() {
   const salvo = JSON.parse(localStorage.getItem("paranordle"));
-  if (salvo && salvo.data !== hoje) {
-    localStorage.removeItem("paranordle");
-  }
+  if (salvo && salvo.data !== hoje) localStorage.removeItem("paranordle");
 }
-criarTeclado();
-iniciarModo(modo);
-carregarProgresso();
-
-
-
