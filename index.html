@@ -1,31 +1,31 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Paranordle</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
 
   <h1>Paranordle</h1>
 
+  <!-- BOTÕES DE MODO -->
   <div id="modos">
-  <button onclick="iniciarModo(1)">Normal</button>
-  <button onclick="iniciarModo(2)">Dueto</button>
-  <button onclick="iniciarModo(4)">Quarteto</button>
-</div>
-  
-  <p id="dica"></p>
+    <button onclick="iniciarModo(1)">Normal</button>
+    <button onclick="iniciarModo(2)">Dueto</button>
+    <button onclick="iniciarModo(4)">Quarteto</button>
+  </div>
 
-  <div id="grade"></div>
+  <!-- MENSAGEM -->
+  <div id="mensagem"></div>
+  <div id="dica"></div>
 
-  <p id="mensagem"></p>
+  <!-- GRADES -->
+  <div id="grade" class="grade-container"></div>
 
+  <!-- TECLADO -->
   <div id="teclado"></div>
 
   <script src="script.js"></script>
 </body>
 </html>
-
