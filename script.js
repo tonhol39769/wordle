@@ -698,7 +698,7 @@ const personagens = [
             "Participou: Natal Macabro",
             "Vivo"
         ]
-    },
+    }
 ];
 
 // 🔁 personagem do dia
@@ -913,6 +913,7 @@ function verificarMeiaNoite() {
     }, 1000);
 }
 iniciarModo(1);
+
 
 
 
