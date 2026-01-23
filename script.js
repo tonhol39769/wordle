@@ -1,4 +1,4 @@
-const hoje = new Date().toISOString().slice(0, 10);
+const hoje = new Date().toISOString().split("T")[0];
 const seedDiaria = Number(hoje.replace(/-/g, ""));
 
 /* =======================
@@ -973,6 +973,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
