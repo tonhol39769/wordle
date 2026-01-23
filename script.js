@@ -35,9 +35,680 @@ const personagens = [
             "Personagem masculino",
             "Ator",
             "Artista",
-            "Participou: Natal Macabro"
+            "Participou: Natal Macabro",
+            "Vivo"
         ]
-    }
+    },
+     {
+        nome: "DALMO",
+        dicas: [
+            "Personagem masculino",
+            "Combatente",
+            "Mascarados",
+            "Participou: Hexatombe",
+            "Morto"
+        ]
+    },
+     {
+        nome: "JORGE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "BRENO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "BRUNO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "DIABO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "HENRI",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CORVO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "TORVO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "POMBA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "AMORA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JASER",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "NANDO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MOSTO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "BARTO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JOREL",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CAITO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "GAMBA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CALEB",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "DAGAN",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CESAR",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JOVAN",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CINDY",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CHLOE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "DANIEL",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "DARIO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "ENPAP",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "GAIUS",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "IVETE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JOANA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JASON",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "KLAUS",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LAYLA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "AARON",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LUCIO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LIRIO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LUCIA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MANDY",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "XANDE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CHICO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "DIEGO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "RENAN",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "NAOMI",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "KENAN",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MARCO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "CHLOE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "KAREN",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "RYDER",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "ORIEL",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "OLAVO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "ALICE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JULIA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MANDY",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "BRIAN",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LUCAS",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MARLI",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MATEO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "GRAÇA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LEILA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "MAIRA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "NAVIA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "PEDRO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "VITOR",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "VILMO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "DIEGO",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "ALICE",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "LAILA",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
+     {
+        nome: "JOREL",
+        dicas: [
+            "Personagem masculino",
+            "Ator",
+            "Artista",
+            "Participou: Natal Macabro",
+            "Vivo"
+        ]
+    },
 ];
 
 // 🔁 personagem do dia
@@ -199,6 +870,7 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
 
