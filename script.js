@@ -925,8 +925,8 @@ setInterval(() => {
 /* ================= START ================= */
 
 criarTeclado();
-carregarProgresso();
 iniciarModo(modo);
+carregarProgresso();
 
 /* ================= TECLADO FÍSICO ================= */
 
@@ -935,4 +935,5 @@ document.addEventListener("keydown", e => {
   if (e.key === "Backspace") apagar();
   if (/^[a-zA-Z]$/.test(e.key)) clicarLetra(e.key.toUpperCase());
 });
+
 
