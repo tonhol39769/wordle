@@ -61,3 +61,21 @@ body {
     margin-top: 20px;
     width: 200px;
 }
+#modos {
+    margin-bottom: 15px;
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+}
+
+#grade {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.bloco {
+    display: grid;
+    gap: 5px;
+}
+
