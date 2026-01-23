@@ -14,7 +14,7 @@ let jogoEncerrado = false;
 
 let respostas = [];
 let grades = [];
-let estadoTeclado = {};
+let estadoTeclado = [];
 
 /* =======================
    PERSONAGENS
@@ -750,6 +750,8 @@ function iniciarModo(qtd) {
   grades = [];
   respostas = [];
 
+estadoTeclado = Array.from({ length: modo }, () => ({}));
+   
   const container = document.getElementById("grade");
   container.innerHTML = "";
 
@@ -857,7 +859,7 @@ function enviar() {
       setTimeout(() => {
         if (letra === resposta[i]) {
           celula.classList.add("certo");
-          marcarTecla(letra, "certo");
+          marcarTecla(letra, "certo", idx);
         } else if (resposta.includes(letra)) {
           celula.classList.add("quase");
           marcarTecla(letra, "quase");
@@ -906,18 +908,25 @@ function mostrarDica() {
 /* =======================
    TECLADO CORES
 ======================= */
-function marcarTecla(letra, estado) {
+function marcarTecla(letra, estado, indiceGrade) {
   const prioridade = { certo: 3, quase: 2, errado: 1 };
-  if (!estadoTeclado[letra] || prioridade[estado] > prioridade[estadoTeclado[letra]]) {
-    estadoTeclado[letra] = estado;
+
+  const atual = estadoTeclado[indiceGrade][letra];
+  if (!atual || prioridade[estado] > prioridade[atual]) {
+    estadoTeclado[indiceGrade][letra] = estado;
   }
 }
 
 function atualizarTeclado() {
   document.querySelectorAll(".key").forEach(btn => {
-    btn.classList.remove("certo", "quase", "errado");
-    const l = btn.innerText;
-    if (estadoTeclado[l]) btn.classList.add(estadoTeclado[l]);
+    btn.className = "key";
+    const letra = btn.innerText;
+
+    estadoTeclado.forEach((estado, i) => {
+      if (estado[letra]) {
+        btn.classList.add(`g${i + 1}-${estado[letra]}`);
+      }
+    });
   });
 }
 
@@ -1002,6 +1011,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
