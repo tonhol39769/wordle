@@ -756,7 +756,7 @@ function criarTeclado() {
       div.innerHTML += `<button onclick="clicarLetra('${l}')">${l}</button>`
     );
 
-    if (i === 2) div.innerHTML += `<button onclick="enviar()">ENTER</button>`;
+    if (i === 2) div.innerHTML += `<button >ENTER</button>`;
 
     teclado.appendChild(div);
   });
@@ -829,4 +829,5 @@ function enviar() {
 
 criarTeclado();
 iniciarModo(1); // troca para 2 ou 4
+
 
