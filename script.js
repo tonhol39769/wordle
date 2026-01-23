@@ -819,5 +819,3 @@ function enviar() {
 
   grades.forEach((bloco, idx) => {
 
-window.enviar = enviar;
-alert("ENTER conectado");
