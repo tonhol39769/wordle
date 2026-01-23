@@ -717,33 +717,49 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 /* =======================
+   SORTEIO DE PERSONAGENS
+======================= */
+function sortearPersonagens(qtd) {
+  const indices = [];
+
+  while (indices.length < qtd) {
+    const r = Math.floor(Math.random() * personagens.length);
+    if (!indices.includes(r)) {
+      indices.push(r);
+    }
+  }
+
+  return indices.map(i => personagens[i].nome);
+}
+
+/* =======================
    MODO
 ======================= */
 function iniciarModo(qtd) {
   modo = qtd;
+  respostas = [];
+  grades = [];
   tentativaAtual = 0;
   entradaAtual = "";
   jogoEncerrado = false;
 
-  respostas = [];
-  grades = [];
-  estadoTeclado = {};
+  const container = document.getElementById("grade");
+  container.innerHTML = "";
 
-  document.getElementById("grade").innerHTML = "";
   document.getElementById("mensagem").innerText = "";
   document.getElementById("dica").innerText = "";
 
-  const seed = parseInt(hoje.replace(/-/g, ""));
-  const base = seed % personagens.length;
+  // 🔥 SORTEIA RESPOSTAS DIFERENTES
+  respostas = sortearPersonagens(modo);
 
+  // cria as grades
   for (let i = 0; i < modo; i++) {
-    respostas.push(personagens[(base + i) % personagens.length].nome);
     criarGrade();
   }
 
-  atualizarTeclado();
   salvarProgresso();
 }
+
 
 /* =======================
    GRADE
@@ -923,3 +939,4 @@ function verificarDia() {
   const salvo = JSON.parse(localStorage.getItem("paranordle"));
   if (salvo && salvo.data !== hoje) localStorage.removeItem("paranordle");
 }
+
