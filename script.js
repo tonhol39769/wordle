@@ -102,41 +102,40 @@ const personagens = [
      {
         nome: "CORVO",
         dicas: [
-            "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Personagem não-binario",
+            "Ocultismo",
+            "Passaros",
+            "Participou: Hexatombe",
+            "Morto"
         ]
     },
      {
         nome: "TORVO",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Ocultista",
+            "Couraças",
+            "Participou: Hexatombe",
+            "Morto"
         ]
     },
      {
         nome: "POMBA",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Cartógrafo",
+            "Passaros",
+            "Participou: Hexatombe",
+            "Desconhecido"
         ]
     },
      {
         nome: "AMORA",
         dicas: [
-            "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Personagem feminina",
+            "Criança",
+            "Participou: Segredo na Ilha",
+            "Morta"
         ]
     },
      {
@@ -870,6 +869,7 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
 
