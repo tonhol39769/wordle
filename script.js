@@ -762,20 +762,32 @@ function criarGrade() {
 
 function criarTeclado() {
   teclado.innerHTML = "";
-  ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"].forEach((linha, i) => {
+
+  const linhas = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+
+  linhas.forEach((linha, i) => {
     const div = document.createElement("div");
 
-    if (i === 2) div.innerHTML += `<button class="especial" onclick="apagar()">⌫</button>`;
+    if (i === 2) {
+      div.innerHTML += `<button onclick="apagar()">⌫</button>`;
+    }
 
-    linha.split("").forEach(l =>
-      div.innerHTML += `<button data-letra="${l}" onclick="clicarLetra('${l}')">${l}</button>`
-    );
+    linha.split("").forEach(letra => {
+      const btn = document.createElement("button");
+      btn.innerText = letra;
+      btn.id = "key-" + letra;
+      btn.onclick = () => clicarLetra(letra);
+      div.appendChild(btn);
+    });
 
-    if (i === 2) div.innerHTML += `<button class="especial" onclick="enviar()">ENTER</button>`;
+    if (i === 2) {
+      div.innerHTML += `<button onclick="enviar()">ENTER</button>`;
+    }
 
     teclado.appendChild(div);
   });
 }
+
 
 /* ================= DIGITAÇÃO ================= */
 
@@ -923,3 +935,4 @@ document.addEventListener("keydown", e => {
   if (e.key === "Backspace") apagar();
   if (/^[a-zA-Z]$/.test(e.key)) clicarLetra(e.key.toUpperCase());
 });
+
