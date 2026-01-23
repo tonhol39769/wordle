@@ -722,14 +722,28 @@ document.addEventListener("DOMContentLoaded", () => {
 /* =======================
    MODO DE JOGO
 ======================= */
-function iniciarModo(novoModo) {
-  modo = novoModo;
-  tentativaAtual = 0;
-  colunaAtual = 0;
-  jogoEncerrado = false;
-  grade = [];
+function iniciarModo(qtd) {
+  modo = qtd;
   respostas = [];
-  estadoTeclado = {};
+  grades = [];
+  tentativaAtual = 0;
+  entradaAtual = "";
+
+  const container = document.getElementById("grade");
+  container.innerHTML = "";
+
+  document.getElementById("mensagem").innerText = "";
+  document.getElementById("dica").innerText = "";
+
+  for (let i = 0; i < modo; i++) {
+    const personagem = personagens[(indiceBase + i) % personagens.length];
+    respostas.push(personagem.nome);
+    criarGrade();
+  }
+
+  salvarProgresso();
+}
+
 
   document.getElementById("mensagem").innerText = "";
   document.getElementById("dica").innerHTML = "";
@@ -752,25 +766,26 @@ function gerarPalavra() {
    GRADE
 ======================= */
 function criarGrade() {
-  const container = document.getElementById("grade");
-  container.innerHTML = "";
+  const bloco = document.createElement("div");
+  bloco.className = "bloco";
 
-  for (let i = 0; i < MAX_TENTATIVAS; i++) {
-    const linha = [];
-    const row = document.createElement("div");
-    row.className = "linha";
+  for (let l = 0; l < maxTentativas; l++) {
+    const linha = document.createElement("div");
+    linha.className = "linha-grade";
 
-    for (let j = 0; j < TAMANHO; j++) {
-      const box = document.createElement("div");
-      box.className = "box";
-      row.appendChild(box);
-      linha.push(box);
+    for (let c = 0; c < 5; c++) {
+      const celula = document.createElement("div");
+      celula.className = "celula";
+      linha.appendChild(celula);
     }
 
-    grade.push(linha);
-    container.appendChild(row);
+    bloco.appendChild(linha);
   }
+
+  document.getElementById("grade").appendChild(bloco);
+  grades.push(bloco);
 }
+
 
 /* =======================
    TECLADO
@@ -817,19 +832,60 @@ function apagar() {
 }
 
 function enviar() {
-  if (jogoEncerrado || colunaAtual < TAMANHO) {
-    animarShake(tentativaAtual);
+  if (entradaAtual.length !== 5) {
+    animarShake();
     return;
   }
 
-  let tentativa = grade[tentativaAtual].map(b => b.innerText).join("");
-
-  if (!personagens.some(p => p.nome === tentativa)) {
-    animarShake(tentativaAtual);
+  // palavra inválida
+  if (!personagens.some(p => p.nome === entradaAtual)) {
+    animarShake();
     return;
   }
 
-  validarTentativa(tentativa);
+  let acertos = 0;
+
+  grades.forEach((bloco, idx) => {
+    const resposta = respostas[idx];
+    const linha = bloco.children[tentativaAtual];
+
+    for (let i = 0; i < 5; i++) {
+      const letra = entradaAtual[i];
+      const celula = linha.children[i];
+
+      celula.classList.add("flip");
+
+      setTimeout(() => {
+        if (letra === resposta[i]) {
+          celula.classList.add("certo");
+          marcarTecla(letra, "certo");
+        } else if (resposta.includes(letra)) {
+          celula.classList.add("quase");
+          marcarTecla(letra, "quase");
+        } else {
+          celula.classList.add("errado");
+          marcarTecla(letra, "errado");
+        }
+      }, i * 100);
+    }
+
+    if (entradaAtual === resposta) acertos++;
+  });
+
+  salvarProgresso();
+
+  if (acertos === modo) {
+    document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU TODAS!";
+    mostrarImagem();
+    return;
+  }
+
+  tentativaAtual++;
+  entradaAtual = "";
+
+  if (tentativaAtual === maxTentativas) {
+    document.getElementById("mensagem").innerText = "❌ Fim de jogo!";
+  }
 }
 
 /* =======================
@@ -953,3 +1009,4 @@ function verificarDia() {
     localStorage.removeItem("paranordle");
   }
 }
+
