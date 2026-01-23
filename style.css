@@ -1,13 +1,18 @@
 body {
-  background: #121212;
+  background: #121213;
   color: white;
-  font-family: Arial, sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
   text-align: center;
+}
+
+h1 {
+  margin-top: 20px;
 }
 
 #modos button {
   margin: 5px;
-  padding: 8px 12px;
+  padding: 8px 14px;
+  font-weight: bold;
   cursor: pointer;
 }
 
@@ -24,42 +29,43 @@ body {
 }
 
 .linha-grade {
-  display: grid;
-  grid-template-columns: repeat(5, 50px);
+  display: flex;
   gap: 6px;
 }
 
 .celula {
-  width: 50px;
-  height: 50px;
-  border: 2px solid #444;
-  font-size: 24px;
-  font-weight: bold;
-  text-transform: uppercase;
+  width: 45px;
+  height: 45px;
+  border: 2px solid #3a3a3c;
   display: flex;
-  align-items: center;
   justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 20px;
+  text-transform: uppercase;
 }
 
-.certo {
-  background: #2ecc71;
-}
-
-.quase {
-  background: #f1c40f;
-}
-
-.errado {
-  background: #555;
-}
+.certo { background: #538d4e; }
+.quase { background: #b59f3b; }
+.errado { background: #3a3a3c; }
 
 #teclado {
   margin-top: 20px;
 }
 
+#teclado div {
+  margin-bottom: 5px;
+}
+
 #teclado button {
-  margin: 3px;
   padding: 10px;
+  margin: 3px;
+  border: none;
   font-weight: bold;
   cursor: pointer;
+}
+
+#imagem {
+  margin-top: 20px;
+  max-width: 200px;
 }
