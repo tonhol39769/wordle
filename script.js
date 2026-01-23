@@ -715,7 +715,7 @@ const personagens = [
 document.addEventListener("DOMContentLoaded", () => {
   verificarDia();
   criarTeclado();
-  iniciarModo(1);
+  window.iniciarModo(1); // <-- Global agora
   atualizarBotoesModo();
 });
 
@@ -743,15 +743,14 @@ function personagensDoDia(qtd) {
 /* =======================
    MODO
 ======================= */
-function iniciarModo(qtd) {
+window.iniciarModo = function(qtd) { // <-- Global
   modo = qtd;
   tentativaAtual = 0;
   entradaAtual = "";
   grades = [];
   respostas = [];
+  estadoTeclado = Array.from({ length: modo }, () => ({}));
 
-estadoTeclado = Array.from({ length: modo }, () => ({}));
-   
   const container = document.getElementById("grade");
   container.innerHTML = "";
 
@@ -765,8 +764,8 @@ estadoTeclado = Array.from({ length: modo }, () => ({}));
   }
 
   carregarProgresso();
+  atualizarBotoesModo();
 }
-
 
 /* =======================
    GRADE
@@ -843,13 +842,8 @@ function apagar() {
    ENVIAR
 ======================= */
 function enviar() {
-  // ✅ Evita erro caso a grade ainda não tenha sido criada
   if (!grades.length) return;
-
-  // Verifica se a entrada tem o tamanho correto
   if (entradaAtual.length !== TAMANHO) return shake();
-
-  // Verifica se a palavra existe na lista de personagens
   if (!personagens.some(p => p.nome === entradaAtual)) return shake();
 
   let acertos = 0;
@@ -868,10 +862,10 @@ function enviar() {
           marcarTecla(letra, "certo", idx);
         } else if (resposta.includes(letra)) {
           celula.classList.add("quase");
-          marcarTecla(letra, "quase");
+          marcarTecla(letra, "quase", idx);
         } else {
           celula.classList.add("errado");
-          marcarTecla(letra, "errado");
+          marcarTecla(letra, "errado", idx);
         }
       }, i * 120);
     });
@@ -894,53 +888,10 @@ function enviar() {
   tentativaAtual++;
   entradaAtual = "";
 
-  // Marca o modo como concluído mesmo se acabar as tentativas
   if (tentativaAtual >= MAX_TENTATIVAS) {
     document.getElementById("mensagem").innerText = "❌ Fim de jogo";
     jogoEncerrado = true;
-    marcarModoConcluido(modo); // <-- aqui
-  }
-
-  salvarProgresso(false);
-}
-lse {
-          celula.classList.add("errado");
-          marcarTecla(letra, "errado");
-        }
-      }, i * 120);
-    });
-
-    if (entradaAtual === resposta) acertos++;
-  });
-
-  atualizarTeclado();
-  mostrarDica();
-
-if (acertos === modo) {
-  document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
-  jogoEncerrado = true;
-  marcarModoConcluido(modo);
-  salvarProgresso();
-  atualizarBotoesModo();
-  return;
-}
-
-tentativaAtual++;
-entradaAtual = "";
-
-// Se acabaram as tentativas, marcar o modo como concluído
-if (tentativaAtual >= MAX_TENTATIVAS) {
-  document.getElementById("mensagem").innerText = "❌ Fim de jogo";
-  jogoEncerrado = true;
-  marcarModoConcluido(modo); // <== ADICIONADO
-}
-
-  tentativaAtual++;
-  entradaAtual = "";
-
-  if (tentativaAtual >= MAX_TENTATIVAS) {
-    document.getElementById("mensagem").innerText = "❌ Fim de jogo";
-    jogoEncerrado = true;
+    marcarModoConcluido(modo);
   }
 
   salvarProgresso(false);
@@ -1052,7 +1003,6 @@ function carregarProgresso() {
   });
 }
 
-
 function verificarDia() {
   Object.keys(localStorage).forEach(k => {
     if (k.startsWith("paranordle_")) {
@@ -1061,13 +1011,3 @@ function verificarDia() {
     }
   });
 }
-
-
-
-
-
-
-
-
-
-
