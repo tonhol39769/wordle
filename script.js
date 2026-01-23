@@ -1009,4 +1009,9 @@ function verificarDia() {
     localStorage.removeItem("paranordle");
   }
 }
+criarTeclado();
+iniciarModo(modo);
+carregarProgresso();
+
+
 
