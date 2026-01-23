@@ -5,16 +5,18 @@ const personagens = [
             "Personagem masculino",
             "Ocultista",
             "Ordo Realitas",
-            "Participou: Desconjuração, Calamidade, SDOL e Hexatombe"
+            "Participou: Desconjuração, Calamidade, SDOL e Hexatombe",
+            "Vivo"
         ]
     },
     {
-        nome: "DAMIR",
+        nome: "BORIS",
         dicas: [
             "Personagem masculino",
             "Combatente",
             "Equipe Kian",
-            "Participou: Calamidade"
+            "Participou: Calamidade",
+            "Morto"
         ]
     },
     {
@@ -24,7 +26,7 @@ const personagens = [
             "Ocultista",
             "Escripta",
             "Participou: Desconjuração",
-            "Nome começa com E"
+            "Morta"
         ]
     },
     {
@@ -197,5 +199,6 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
