@@ -1,6 +1,7 @@
-let modo = 1; // 1, 2 ou 4
+let modo = 1; // 1 = normal | 2 = dueto | 4 = quarteto
 let respostas = [];
 let grades = [];
+
 const personagens = [
   {
         nome: "DANTE",
@@ -701,228 +702,140 @@ const personagens = [
     }
 ];
 
-// 🔁 personagem do dia
 const hoje = new Date().toISOString().split("T")[0];
-const indice = hoje.replaceAll("-", "") % personagens.length;
-const personagem = personagens[indice];
-const resposta = personagem.nome;
+const indiceBase = Number(hoje.replaceAll("-", ""));
 
 let tentativaAtual = 0;
 const maxTentativas = 6;
 let entradaAtual = "";
 
-const grade = document.getElementById("grade");
+const teclado = document.getElementById("teclado");
+const container = document.getElementById("grade");
 const mensagem = document.getElementById("mensagem");
-const dicaTexto = document.getElementById("dica");
-const imagem = document.getElementById("imagem");
 
-criarGrade();
-criarTeclado();
-carregarProgresso();
-verificarMeiaNoite();
+/* ===================== INÍCIO ===================== */
 
-// 🟦 GRADE
+function iniciarModo(qtd) {
+  modo = qtd;
+  respostas = [];
+  grades = [];
+  tentativaAtual = 0;
+  entradaAtual = "";
+  mensagem.innerText = "";
+  container.innerHTML = "";
+
+  for (let i = 0; i < modo; i++) {
+    const personagem = personagens[(indiceBase + i) % personagens.length];
+    respostas.push(personagem.nome);
+    criarGrade();
+  }
+}
+
+/* ===================== GRADE ===================== */
+
 function criarGrade() {
-    for (let l = 0; l < maxTentativas; l++) {
-        const linha = document.createElement("div");
-        linha.className = "linha-grade";
+  const bloco = document.createElement("div");
+  bloco.className = "bloco";
 
-        for (let c = 0; c < 5; c++) {
-            const div = document.createElement("div");
-            div.className = "celula";
-            linha.appendChild(div);
-        }
+  for (let l = 0; l < maxTentativas; l++) {
+    const linha = document.createElement("div");
+    linha.className = "linha-grade";
 
-        grade.appendChild(linha);
+    for (let c = 0; c < 5; c++) {
+      const celula = document.createElement("div");
+      celula.className = "celula";
+      linha.appendChild(celula);
     }
+    bloco.appendChild(linha);
+  }
+
+  container.appendChild(bloco);
+  grades.push(bloco);
 }
 
-// ⌨️ TECLADO
+/* ===================== TECLADO ===================== */
+
 function criarTeclado() {
-    const linhas = ["QWERTYUIOP", "ASDFGHJKL", "ZXCVBNM"];
+  teclado.innerHTML = "";
+  ["QWERTYUIOP","ASDFGHJKL","ZXCVBNM"].forEach((linha, i) => {
+    const div = document.createElement("div");
 
-    linhas.forEach((linha, i) => {
-        const div = document.createElement("div");
-        div.className = "linha";
+    if (i === 2) div.innerHTML += `<button onclick="apagar()">⌫</button>`;
 
-        if (i === 2) {
-            div.innerHTML += `<button onclick="apagar()">⌫</button>`;
-        }
+    linha.split("").forEach(l =>
+      div.innerHTML += `<button onclick="clicarLetra('${l}')">${l}</button>`
+    );
 
-        linha.split("").forEach(letra => {
-            div.innerHTML += `<button onclick="clicarLetra('${letra}')">${letra}</button>`;
-        });
+    if (i === 2) div.innerHTML += `<button onclick="enviar()">ENTER</button>`;
 
-        if (i === 2) {
-            div.innerHTML += `<button onclick="enviar()">ENTER</button>`;
-        }
-
-        document.getElementById("teclado").appendChild(div);
-    });
+    teclado.appendChild(div);
+  });
 }
 
-// ✍️ DIGITAÇÃO
-function clicarLetra(letra) {
-    if (entradaAtual.length < 5) {
-        entradaAtual += letra;
-        atualizarLinha();
-    }
+/* ===================== DIGITAÇÃO ===================== */
+
+function clicarLetra(l) {
+  if (entradaAtual.length < 5) {
+    entradaAtual += l;
+    atualizarLinha();
+  }
 }
 
 function apagar() {
-    entradaAtual = entradaAtual.slice(0, -1);
-    atualizarLinha();
+  entradaAtual = entradaAtual.slice(0, -1);
+  atualizarLinha();
 }
 
 function atualizarLinha() {
-    const linha = grade.children[tentativaAtual];
+  grades.forEach(bloco => {
+    const linha = bloco.children[tentativaAtual];
     for (let i = 0; i < 5; i++) {
-        linha.children[i].innerText = entradaAtual[i] || "";
+      linha.children[i].innerText = entradaAtual[i] || "";
     }
+  });
 }
 
-// ✅ ENVIAR
-function enviar() {
-    if (entradaAtual.length !== 5) return;
+/* ===================== ENVIAR ===================== */
 
-    grades.forEach((bloco, index) => {
-    const resposta = respostas[index];
+function enviar() {
+  if (entradaAtual.length !== 5) return;
+
+  let acertos = 0;
+
+  grades.forEach((bloco, idx) => {
+    const resposta = respostas[idx];
     const linha = bloco.children[tentativaAtual];
 
     for (let i = 0; i < 5; i++) {
-        const letra = entradaAtual[i];
-        const caixa = linha.children[i];
+      const letra = entradaAtual[i];
+      const celula = linha.children[i];
 
-        if (letra === resposta[i]) {
-            caixa.classList.add("certo");
-        } else if (resposta.includes(letra)) {
-            caixa.classList.add("quase");
-        } else {
-            caixa.classList.add("errado");
-        }
-    }
-});
-
-
-    for (let i = 0; i < 5; i++) {
-        const letra = entradaAtual[i];
-        const caixa = linha.children[i];
-
-        if (letra === resposta[i]) {
-            caixa.classList.add("certo");
-            marcarTecla(letra, "certo");
-        } else if (resposta.includes(letra)) {
-            caixa.classList.add("quase");
-            marcarTecla(letra, "quase");
-        } else {
-            caixa.classList.add("errado");
-            marcarTecla(letra, "errado");
-        }
+      if (letra === resposta[i]) {
+        celula.classList.add("certo");
+      } else if (resposta.includes(letra)) {
+        celula.classList.add("quase");
+      } else {
+        celula.classList.add("errado");
+      }
     }
 
-    dicaTexto.innerText = personagem.dicas[tentativaAtual] || "";
-    salvarProgresso();
+    if (entradaAtual === resposta) acertos++;
+  });
 
-    if (entradaAtual === resposta) {
-        mensagem.innerText = "🎉 Você acertou!";
-        imagem.src = `./imagens/${resposta.toLowerCase()}.png`;
-        imagem.hidden = false;
-        return;
-    }
-function iniciarModo(qtd) {
-    modo = qtd;
-    respostas = [];
-    grades = [];
+  if (acertos === modo) {
+    mensagem.innerText = "🎉 VOCÊ ACERTOU TODAS!";
+    return;
+  }
 
-    document.getElementById("grade").innerHTML = "";
+  tentativaAtual++;
+  entradaAtual = "";
 
-    for (let i = 0; i < qtd; i++) {
-        const personagem = personagens[(indice + i) % personagens.length];
-        respostas.push(personagem.nome);
-        criarGradeMultipla(i);
-    }
-}
-function criarGradeMultipla(i) {
-    const container = document.getElementById("grade");
-
-    const bloco = document.createElement("div");
-    bloco.className = "bloco";
-
-    for (let l = 0; l < maxTentativas; l++) {
-        const linha = document.createElement("div");
-        linha.className = "linha-grade";
-
-        for (let c = 0; c < 5; c++) {
-            const div = document.createElement("div");
-            div.className = "celula";
-            linha.appendChild(div);
-        }
-
-        bloco.appendChild(linha);
-    }
-
-    container.appendChild(bloco);
-    grades.push(bloco);
+  if (tentativaAtual === maxTentativas) {
+    mensagem.innerText = "❌ Fim de jogo!";
+  }
 }
 
-    tentativaAtual++;
-    entradaAtual = "";
+/* ===================== START ===================== */
 
-    if (tentativaAtual === maxTentativas) {
-        mensagem.innerText = `❌ A resposta era ${resposta}`;
-    }
-}
-
-// 🎨 TECLADO COLORIDO
-function marcarTecla(letra, classe) {
-    document.querySelectorAll("#teclado button").forEach(botao => {
-        if (botao.innerText === letra) {
-            if (botao.classList.contains("certo")) return;
-            botao.className = classe;
-        }
-    });
-}
-
-// 💾 SALVAR
-function salvarProgresso() {
-    localStorage.setItem("progresso", JSON.stringify({
-        data: hoje,
-        tentativaAtual,
-        grade: grade.innerHTML,
-        dica: dicaTexto.innerText
-    }));
-}
-
-function carregarProgresso() {
-    const salvo = JSON.parse(localStorage.getItem("progresso"));
-    if (!salvo || salvo.data !== hoje) return;
-
-    tentativaAtual = salvo.tentativaAtual;
-    grade.innerHTML = salvo.grade;
-    dicaTexto.innerText = salvo.dica;
-}
-
-// ⏰ MEIA-NOITE
-function verificarMeiaNoite() {
-    setInterval(() => {
-        const agora = new Date().toISOString().split("T")[0];
-        if (agora !== hoje) {
-            localStorage.clear();
-            location.reload();
-        }
-    }, 1000);
-}
-iniciarModo(1);
-
-
-
-
-
-
-
-
-
-
-
-
-
+criarTeclado();
+iniciarModo(1); // troca para 2 ou 4
