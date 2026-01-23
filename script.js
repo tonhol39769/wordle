@@ -876,13 +876,23 @@ function enviar() {
   atualizarTeclado();
   mostrarDica();
 
-  if (acertos === modo) {
+if (acertos === modo) {
   document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
   jogoEncerrado = true;
   marcarModoConcluido(modo);
   salvarProgresso();
   atualizarBotoesModo();
   return;
+}
+
+tentativaAtual++;
+entradaAtual = "";
+
+// Se acabaram as tentativas, marcar o modo como concluído
+if (tentativaAtual >= MAX_TENTATIVAS) {
+  document.getElementById("mensagem").innerText = "❌ Fim de jogo";
+  jogoEncerrado = true;
+  marcarModoConcluido(modo); // <== ADICIONADO
 }
 
   tentativaAtual++;
@@ -1011,6 +1021,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
