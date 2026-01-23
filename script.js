@@ -716,6 +716,7 @@ document.addEventListener("DOMContentLoaded", () => {
   verificarDia();
   criarTeclado();
   iniciarModo(1);
+  atualizarBotoesModo();
 });
 
 /* =======================
@@ -874,11 +875,13 @@ function enviar() {
   mostrarDica();
 
   if (acertos === modo) {
-    document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
-    jogoEncerrado = true;
-    salvarProgresso(true);
-    return;
-  }
+  document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
+  jogoEncerrado = true;
+  marcarModoConcluido(modo);
+  salvarProgresso();
+  atualizarBotoesModo();
+  return;
+}
 
   tentativaAtual++;
   entradaAtual = "";
@@ -928,6 +931,31 @@ function shake() {
   , 400);
 }
 
+function atualizarBotoesModo() {
+  document.querySelectorAll("#modos button").forEach(btn => {
+    const m = Number(btn.dataset.modo);
+
+    if (modoLiberado(m)) {
+      btn.disabled = false;
+      btn.classList.remove("bloqueado");
+    } else {
+      btn.disabled = true;
+      btn.classList.add("bloqueado");
+    }
+  });
+}
+
+function marcarModoConcluido(modo) {
+  const dados = JSON.parse(localStorage.getItem("modos_concluidos")) || {};
+  dados[modo] = hoje;
+  localStorage.setItem("modos_concluidos", JSON.stringify(dados));
+}
+
+function modoLiberado(modo) {
+  const dados = JSON.parse(localStorage.getItem("modos_concluidos")) || {};
+  return dados[modo - 1] === hoje || modo === 1;
+}
+
 /* =======================
    STORAGE
 ======================= */
@@ -974,6 +1002,7 @@ function verificarDia() {
     }
   });
 }
+
 
 
 
