@@ -20,7 +20,7 @@ let estadoTeclado = [];
    PERSONAGENS
 ======================= */
 const personagens = [
-     {
+      {
         nome: "DANTE",
         dicas: [
             "Personagem masculino",
@@ -715,7 +715,7 @@ const personagens = [
 document.addEventListener("DOMContentLoaded", () => {
   verificarDia();
   criarTeclado();
-  window.iniciarModo(1); // <-- Global agora
+  iniciarModo(1);
   atualizarBotoesModo();
 });
 
@@ -743,14 +743,14 @@ function personagensDoDia(qtd) {
 /* =======================
    MODO
 ======================= */
-window.iniciarModo = function(qtd) { // <-- Global
+function iniciarModo(qtd) {
   modo = qtd;
   tentativaAtual = 0;
   entradaAtual = "";
   grades = [];
   respostas = [];
   estadoTeclado = Array.from({ length: modo }, () => ({}));
-
+   
   const container = document.getElementById("grade");
   container.innerHTML = "";
 
@@ -764,7 +764,6 @@ window.iniciarModo = function(qtd) { // <-- Global
   }
 
   carregarProgresso();
-  atualizarBotoesModo();
 }
 
 /* =======================
@@ -818,7 +817,7 @@ function criarTeclado() {
    INPUT
 ======================= */
 function digitar(letra) {
-   if (!grades.length) return;
+  if (!grades.length) return;
   if (jogoEncerrado || entradaAtual.length >= TAMANHO) return;
 
   grades.forEach(bloco => {
