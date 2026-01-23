@@ -93,10 +93,10 @@ const personagens = [
         nome: "HENRI",
         dicas: [
             "Personagem masculino",
-            "Ator",
-            "Artista",
-            "Participou: Natal Macabro",
-            "Vivo"
+            "Ocultista",
+            "Escripta (anteriormente)",
+            "Participou: Desconjuração, Calamidade e Hexatombe",
+            "Portador de Reliquia"
         ]
     },
      {
@@ -870,6 +870,7 @@ function verificarMeiaNoite() {
         }
     }, 1000);
 }
+
 
 
 
