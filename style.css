@@ -1,5 +1,3 @@
-/* ================= GERAL ================= */
-
 * {
   box-sizing: border-box;
 }
@@ -13,83 +11,113 @@ body {
   padding: 0;
 }
 
+/* TÍTULO */
 h1 {
-  margin: 20px 0;
+  margin: 20px 0 10px;
 }
 
-/* ================= MODOS ================= */
-
-#modos {
+/* DICA */
+#dica {
+  min-height: 24px;
   margin-bottom: 10px;
+  color: #d7dadc;
 }
 
-#modos button {
-  margin: 4px;
-  padding: 8px 14px;
-  font-weight: bold;
-  cursor: pointer;
-  background: #3a3a3c;
-  color: white;
-  border: none;
-  border-radius: 4px;
-}
-
-#modos button:hover {
-  background: #565758;
-}
-
-/* ================= GRADE ================= */
-
+/* GRADE */
 #grade {
-  display: flex;
+  display: grid;
+  gap: 8px;
   justify-content: center;
-  gap: 20px;
   margin: 20px auto;
 }
 
-.bloco {
-  display: grid;
-  gap: 6px;
-}
-
-/* ================= LINHAS ================= */
-
-.linha-grade {
+/* LINHA */
+.linha {
   display: flex;
   gap: 6px;
 }
 
-/* ================= CÉLULAS ================= */
-
-.celula {
-  width: 46px;
-  height: 46px;
+/* CÉLULA */
+.box {
+  width: 48px;
+  height: 48px;
   border: 2px solid #3a3a3c;
   display: flex;
-  justify-content: center;
   align-items: center;
-  font-weight: bold;
+  justify-content: center;
   font-size: 22px;
+  font-weight: bold;
   text-transform: uppercase;
-  background: #121213;
-  transition: background-color 0.3s, border-color 0.3s;
 }
 
-/* ================= CORES ================= */
-
-.celula.certo {
+/* ESTADOS */
+.correto {
   background: #538d4e;
   border-color: #538d4e;
 }
 
-.celula.quase {
+.presente {
   background: #b59f3b;
   border-color: #b59f3b;
 }
 
-.celula.errado {
+.errado {
   background: #3a3a3c;
   border-color: #3a3a3c;
 }
 
-/* ====*
+/* TECLADO */
+#teclado {
+  margin: 20px auto;
+}
+
+#teclado div {
+  margin-bottom: 5px;
+}
+
+/* TECLA */
+.key {
+  padding: 12px;
+  margin: 3px;
+  background: #818384;
+  border: none;
+  color: black;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+/* TECLAS ESPECIAIS */
+.key.special {
+  background: #565758;
+  color: white;
+}
+
+/* TECLADO COLORIDO */
+.key.correto {
+  background: #538d4e;
+  color: white;
+}
+
+.key.presente {
+  background: #b59f3b;
+  color: white;
+}
+
+.key.errado {
+  background: #3a3a3c;
+  color: white;
+}
+
+/* SHAKE */
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  50% { transform: translateX(6px); }
+  75% { transform: translateX(-6px); }
+  100% { transform: translateX(0); }
+}
+
+.shake {
+  animation: shake 0.4s;
+}
