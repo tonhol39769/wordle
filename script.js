@@ -20,7 +20,7 @@ let estadoTeclado = [];
    PERSONAGENS
 ======================= */
 const personagens = [
-      {
+  {
         nome: "DANTE",
         dicas: [
             "Personagem masculino",
@@ -749,8 +749,10 @@ function iniciarModo(qtd) {
   entradaAtual = "";
   grades = [];
   respostas = [];
+  jogoEncerrado = false;
+
   estadoTeclado = Array.from({ length: modo }, () => ({}));
-   
+
   const container = document.getElementById("grade");
   container.innerHTML = "";
 
@@ -878,9 +880,7 @@ function enviar() {
   if (acertos === modo) {
     document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
     jogoEncerrado = true;
-    marcarModoConcluido(modo);
     salvarProgresso();
-    atualizarBotoesModo();
     return;
   }
 
@@ -890,10 +890,9 @@ function enviar() {
   if (tentativaAtual >= MAX_TENTATIVAS) {
     document.getElementById("mensagem").innerText = "❌ Fim de jogo";
     jogoEncerrado = true;
-    marcarModoConcluido(modo);
   }
 
-  salvarProgresso(false);
+  salvarProgresso();
 }
 
 /* =======================
@@ -910,7 +909,6 @@ function mostrarDica() {
 ======================= */
 function marcarTecla(letra, estado, indiceGrade) {
   const prioridade = { certo: 3, quase: 2, errado: 1 };
-
   const atual = estadoTeclado[indiceGrade][letra];
   if (!atual || prioridade[estado] > prioridade[atual]) {
     estadoTeclado[indiceGrade][letra] = estado;
@@ -923,9 +921,7 @@ function atualizarTeclado() {
     const letra = btn.innerText;
 
     estadoTeclado.forEach((estado, i) => {
-      if (estado[letra]) {
-        btn.classList.add(`g${i + 1}-${estado[letra]}`);
-      }
+      if (estado[letra]) btn.classList.add(`g${i + 1}-${estado[letra]}`);
     });
   });
 }
@@ -940,29 +936,14 @@ function shake() {
   , 400);
 }
 
+/* =======================
+   MODOS
+======================= */
 function atualizarBotoesModo() {
   document.querySelectorAll("#modos button").forEach(btn => {
-    const m = Number(btn.dataset.modo);
-
-    if (modoLiberado(m)) {
-      btn.disabled = false;
-      btn.classList.remove("bloqueado");
-    } else {
-      btn.disabled = true;
-      btn.classList.add("bloqueado");
-    }
+    btn.disabled = false;       // todos sempre liberados
+    btn.classList.remove("bloqueado");
   });
-}
-
-function marcarModoConcluido(modo) {
-  const dados = JSON.parse(localStorage.getItem("modos_concluidos")) || {};
-  dados[modo] = hoje;
-  localStorage.setItem("modos_concluidos", JSON.stringify(dados));
-}
-
-function modoLiberado(modo) {
-  const dados = JSON.parse(localStorage.getItem("modos_concluidos")) || {};
-  return modo === 1 || dados[modo - 1] === hoje;
 }
 
 /* =======================
@@ -979,7 +960,6 @@ function salvarProgresso() {
       )
     )
   };
-
   localStorage.setItem(`paranordle_${modo}`, JSON.stringify(dados));
 }
 
@@ -992,10 +972,7 @@ function carregarProgresso() {
   salvo.grades.forEach((linhas, g) => {
     linhas.forEach((letras, l) => {
       letras.forEach((letra, c) => {
-        const celula = grades[g]
-          ?.children[l]
-          ?.children[c];
-
+        const celula = grades[g]?.children[l]?.children[c];
         if (celula) celula.innerText = letra;
       });
     });
