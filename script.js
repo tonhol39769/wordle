@@ -20,7 +20,7 @@ let estadoTeclado = [];
    PERSONAGENS
 ======================= */
 const personagens = [
-  {
+   {
         nome: "DANTE",
         dicas: [
             "Personagem masculino",
@@ -757,23 +757,30 @@ function iniciarModo(qtd) {
   container.innerHTML = "";
 
   document.getElementById("mensagem").innerText = "";
-  document.getElementById("dica").innerText = "";
 
   respostas = personagensDoDia(qtd);
 
   for (let i = 0; i < qtd; i++) {
-    criarGrade();
+    criarGrade(i); // Passa índice para dica
   }
 
   carregarProgresso();
+  atualizarTeclado(); // atualiza teclado ao iniciar
+  mostrarDicas();     // mostra dicas de cada grade
 }
 
 /* =======================
    GRADE
 ======================= */
-function criarGrade() {
+function criarGrade(indice) {
   const bloco = document.createElement("div");
   bloco.className = "bloco";
+
+  // Dica do personagem
+  const dicaDiv = document.createElement("div");
+  dicaDiv.className = "dica-personagem";
+  dicaDiv.id = `dica-${indice}`;
+  bloco.appendChild(dicaDiv);
 
   for (let l = 0; l < MAX_TENTATIVAS; l++) {
     const linha = document.createElement("div");
@@ -790,6 +797,18 @@ function criarGrade() {
 
   document.getElementById("grade").appendChild(bloco);
   grades.push(bloco);
+}
+
+/* =======================
+   DICAS
+======================= */
+function mostrarDicas() {
+  respostas.forEach((nome, idx) => {
+    const personagem = personagens.find(p => p.nome === nome);
+    const dicaAtual = personagem?.dicas[tentativaAtual] || "";
+    const dicaDiv = document.getElementById(`dica-${idx}`);
+    if (dicaDiv) dicaDiv.innerText = "🕯️ " + dicaAtual;
+  });
 }
 
 /* =======================
@@ -823,7 +842,7 @@ function digitar(letra) {
   if (jogoEncerrado || entradaAtual.length >= TAMANHO) return;
 
   grades.forEach(bloco => {
-    bloco.children[tentativaAtual].children[entradaAtual.length].innerText = letra;
+    bloco.children[tentativaAtual + 1].children[entradaAtual.length].innerText = letra;
   });
 
   entradaAtual += letra;
@@ -835,7 +854,7 @@ function apagar() {
   entradaAtual = entradaAtual.slice(0, -1);
 
   grades.forEach(bloco => {
-    bloco.children[tentativaAtual].children[entradaAtual.length].innerText = "";
+    bloco.children[tentativaAtual + 1].children[entradaAtual.length].innerText = "";
   });
 }
 
@@ -851,7 +870,7 @@ function enviar() {
 
   grades.forEach((bloco, idx) => {
     const resposta = respostas[idx];
-    const linha = bloco.children[tentativaAtual];
+    const linha = bloco.children[tentativaAtual + 1];
 
     [...entradaAtual].forEach((letra, i) => {
       const celula = linha.children[i];
@@ -875,7 +894,7 @@ function enviar() {
   });
 
   atualizarTeclado();
-  mostrarDica();
+  mostrarDicas();
 
   if (acertos === modo) {
     document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
@@ -893,15 +912,6 @@ function enviar() {
   }
 
   salvarProgresso();
-}
-
-/* =======================
-   DICAS
-======================= */
-function mostrarDica() {
-  const personagem = personagens.find(p => p.nome === respostas[0]);
-  const dica = personagem?.dicas[tentativaAtual - 1];
-  if (dica) document.getElementById("dica").innerText = "🕯️ " + dica;
 }
 
 /* =======================
@@ -926,27 +936,13 @@ function atualizarTeclado() {
   });
 }
 
-function atualizarTecladoModoAtual() {
-  const indice = modo - 1; // modo atual (1=solo, 2=dueto, 3=quarteto)
-  document.querySelectorAll(".key").forEach(btn => {
-    btn.className = "key"; // reseta classes
-    const letra = btn.innerText;
-
-    // Só aplica cores do modo atual
-    if (estadoTeclado[indice][letra]) {
-      btn.classList.add(`g${indice + 1}-${estadoTeclado[indice][letra]}`);
-    }
-  });
-}
-
-
 /* =======================
    SHAKE
 ======================= */
 function shake() {
-  document.querySelectorAll(".linha-grade")[tentativaAtual]?.classList.add("shake");
+  document.querySelectorAll(".linha-grade")[tentativaAtual + 1]?.classList.add("shake");
   setTimeout(() =>
-    document.querySelectorAll(".linha-grade")[tentativaAtual]?.classList.remove("shake")
+    document.querySelectorAll(".linha-grade")[tentativaAtual + 1]?.classList.remove("shake")
   , 400);
 }
 
@@ -955,7 +951,7 @@ function shake() {
 ======================= */
 function atualizarBotoesModo() {
   document.querySelectorAll("#modos button").forEach(btn => {
-    btn.disabled = false;       // todos sempre liberados
+    btn.disabled = false;
     btn.classList.remove("bloqueado");
   });
 }
@@ -972,7 +968,8 @@ function salvarProgresso() {
       [...bloco.querySelectorAll(".linha-grade")].map(l =>
         [...l.children].map(c => c.innerText)
       )
-    )
+    ),
+    estadoTeclado
   };
   localStorage.setItem(`paranordle_${modo}`, JSON.stringify(dados));
 }
@@ -982,15 +979,19 @@ function carregarProgresso() {
   if (!salvo || salvo.data !== hoje) return;
 
   tentativaAtual = salvo.tentativaAtual || 0;
+  estadoTeclado = salvo.estadoTeclado || estadoTeclado;
 
   salvo.grades.forEach((linhas, g) => {
     linhas.forEach((letras, l) => {
       letras.forEach((letra, c) => {
-        const celula = grades[g]?.children[l]?.children[c];
+        const celula = grades[g]?.children[l + 1]?.children[c]; // +1 por causa da dica
         if (celula) celula.innerText = letra;
       });
     });
   });
+
+  atualizarTeclado();
+  mostrarDicas();
 }
 
 function verificarDia() {
@@ -1001,4 +1002,3 @@ function verificarDia() {
     }
   });
 }
-
