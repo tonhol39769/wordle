@@ -926,6 +926,20 @@ function atualizarTeclado() {
   });
 }
 
+function atualizarTecladoModoAtual() {
+  const indice = modo - 1; // modo atual (1=solo, 2=dueto, 3=quarteto)
+  document.querySelectorAll(".key").forEach(btn => {
+    btn.className = "key"; // reseta classes
+    const letra = btn.innerText;
+
+    // Só aplica cores do modo atual
+    if (estadoTeclado[indice][letra]) {
+      btn.classList.add(`g${indice + 1}-${estadoTeclado[indice][letra]}`);
+    }
+  });
+}
+
+
 /* =======================
    SHAKE
 ======================= */
@@ -987,3 +1001,4 @@ function verificarDia() {
     }
   });
 }
+
