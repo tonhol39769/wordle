@@ -751,22 +751,22 @@ function iniciarModo(qtd) {
   respostas = [];
   jogoEncerrado = false;
 
-  estadoTeclado = Array.from({ length: modo }, () => ({}));
+  // mantém cores anteriores de outros modos
+  if (!estadoTeclado[modo]) estadoTeclado[modo] = {};
 
   const container = document.getElementById("grade");
   container.innerHTML = "";
 
   document.getElementById("mensagem").innerText = "";
+  document.getElementById("dica").innerText = "";
 
   respostas = personagensDoDia(qtd);
 
   for (let i = 0; i < qtd; i++) {
-    criarGrade(i); // Passa índice para dica
+    criarGrade();
   }
 
-  carregarProgresso();
-  atualizarTeclado(); // atualiza teclado ao iniciar
-  mostrarDicas();     // mostra dicas de cada grade
+  carregarProgresso(); // carrega progresso do modo atual
 }
 
 /* =======================
@@ -957,12 +957,14 @@ function atualizarBotoesModo() {
 }
 
 /* =======================
-   STORAGE
+   STORAGE POR TODOS MODOS
 ======================= */
 function salvarProgresso() {
-  const dados = {
+  // pega todos os modos salvos
+  const todos = JSON.parse(localStorage.getItem("paranordle_todos")) || {};
+
+  todos[modo] = {
     data: hoje,
-    modo,
     tentativaAtual,
     grades: grades.map(bloco =>
       [...bloco.querySelectorAll(".linha-grade")].map(l =>
@@ -971,11 +973,13 @@ function salvarProgresso() {
     ),
     estadoTeclado
   };
-  localStorage.setItem(`paranordle_${modo}`, JSON.stringify(dados));
+
+  localStorage.setItem("paranordle_todos", JSON.stringify(todos));
 }
 
 function carregarProgresso() {
-  const salvo = JSON.parse(localStorage.getItem(`paranordle_${modo}`));
+  const todos = JSON.parse(localStorage.getItem("paranordle_todos")) || {};
+  const salvo = todos[modo];
   if (!salvo || salvo.data !== hoje) return;
 
   tentativaAtual = salvo.tentativaAtual || 0;
@@ -984,21 +988,13 @@ function carregarProgresso() {
   salvo.grades.forEach((linhas, g) => {
     linhas.forEach((letras, l) => {
       letras.forEach((letra, c) => {
-        const celula = grades[g]?.children[l + 1]?.children[c]; // +1 por causa da dica
+        const celula = grades[g]?.children[l]?.children[c];
         if (celula) celula.innerText = letra;
       });
     });
   });
 
-  atualizarTeclado();
-  mostrarDicas();
+  atualizarTecladoModoAtual(); // aplica cores do teclado do modo atual
 }
 
-function verificarDia() {
-  Object.keys(localStorage).forEach(k => {
-    if (k.startsWith("paranordle_")) {
-      const d = JSON.parse(localStorage.getItem(k));
-      if (d.data !== hoje) localStorage.removeItem(k);
-    }
-  });
-}
+
