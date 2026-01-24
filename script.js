@@ -20,7 +20,7 @@ let estadoTeclado = [];
    PERSONAGENS
 ======================= */
 const personagens = [
-   {
+  {
         nome: "DANTE",
         dicas: [
             "Personagem masculino",
@@ -707,7 +707,7 @@ const personagens = [
             "Vivo"
         ]
     }
-];
+   ]
 
 /* =======================
    INIT
@@ -717,7 +717,16 @@ document.addEventListener("DOMContentLoaded", () => {
   criarTeclado();
   iniciarModo(1);
   atualizarBotoesModo();
+  mostrarDicas(); // mostra a dica inicial
 });
+
+/* =======================
+   HELPERS
+======================= */
+function getLinha(bloco, tentativa) {
+  // +1 porque a primeira child é a dica
+  return bloco.children[tentativa + 1];
+}
 
 /* =======================
    SORTEIO DE PERSONAGENS
@@ -751,7 +760,6 @@ function iniciarModo(qtd) {
   respostas = [];
   jogoEncerrado = false;
 
-  // mantém cores anteriores de outros modos
   if (!estadoTeclado[modo]) estadoTeclado[modo] = {};
 
   const container = document.getElementById("grade");
@@ -763,10 +771,11 @@ function iniciarModo(qtd) {
   respostas = personagensDoDia(qtd);
 
   for (let i = 0; i < qtd; i++) {
-    criarGrade();
+    criarGrade(i);
   }
 
   carregarProgresso(); // carrega progresso do modo atual
+  mostrarDicas(); // mostra dicas iniciais
 }
 
 /* =======================
@@ -838,11 +847,11 @@ function criarTeclado() {
    INPUT
 ======================= */
 function digitar(letra) {
-  if (!grades.length) return;
-  if (jogoEncerrado || entradaAtual.length >= TAMANHO) return;
+  if (!grades.length || jogoEncerrado || entradaAtual.length >= TAMANHO) return;
 
   grades.forEach(bloco => {
-    bloco.children[tentativaAtual + 1].children[entradaAtual.length].innerText = letra;
+    const linha = getLinha(bloco, tentativaAtual);
+    linha.children[entradaAtual.length].innerText = letra;
   });
 
   entradaAtual += letra;
@@ -854,7 +863,8 @@ function apagar() {
   entradaAtual = entradaAtual.slice(0, -1);
 
   grades.forEach(bloco => {
-    bloco.children[tentativaAtual + 1].children[entradaAtual.length].innerText = "";
+    const linha = getLinha(bloco, tentativaAtual);
+    linha.children[entradaAtual.length].innerText = "";
   });
 }
 
@@ -862,15 +872,14 @@ function apagar() {
    ENVIAR
 ======================= */
 function enviar() {
-  if (!grades.length) return;
-  if (entradaAtual.length !== TAMANHO) return shake();
+  if (!grades.length || entradaAtual.length !== TAMANHO) return shake();
   if (!personagens.some(p => p.nome === entradaAtual)) return shake();
 
   let acertos = 0;
 
   grades.forEach((bloco, idx) => {
     const resposta = respostas[idx];
-    const linha = bloco.children[tentativaAtual + 1];
+    const linha = getLinha(bloco, tentativaAtual);
 
     [...entradaAtual].forEach((letra, i) => {
       const celula = linha.children[i];
@@ -894,19 +903,15 @@ function enviar() {
   });
 
   atualizarTeclado();
-  mostrarDicas();
+
+  tentativaAtual++;
+  entradaAtual = "";
+  mostrarDicas(); // mostra dica do próximo turno
 
   if (acertos === modo) {
     document.getElementById("mensagem").innerText = "🎉 VOCÊ ACERTOU!";
     jogoEncerrado = true;
-    salvarProgresso();
-    return;
-  }
-
-  tentativaAtual++;
-  entradaAtual = "";
-
-  if (tentativaAtual >= MAX_TENTATIVAS) {
+  } else if (tentativaAtual >= MAX_TENTATIVAS) {
     document.getElementById("mensagem").innerText = "❌ Fim de jogo";
     jogoEncerrado = true;
   }
@@ -940,9 +945,9 @@ function atualizarTeclado() {
    SHAKE
 ======================= */
 function shake() {
-  document.querySelectorAll(".linha-grade")[tentativaAtual + 1]?.classList.add("shake");
+  document.querySelectorAll(".linha-grade")[tentativaAtual]?.classList.add("shake");
   setTimeout(() =>
-    document.querySelectorAll(".linha-grade")[tentativaAtual + 1]?.classList.remove("shake")
+    document.querySelectorAll(".linha-grade")[tentativaAtual]?.classList.remove("shake")
   , 400);
 }
 
@@ -960,7 +965,6 @@ function atualizarBotoesModo() {
    STORAGE POR TODOS MODOS
 ======================= */
 function salvarProgresso() {
-  // pega todos os modos salvos
   const todos = JSON.parse(localStorage.getItem("paranordle_todos")) || {};
 
   todos[modo] = {
@@ -988,13 +992,11 @@ function carregarProgresso() {
   salvo.grades.forEach((linhas, g) => {
     linhas.forEach((letras, l) => {
       letras.forEach((letra, c) => {
-        const celula = grades[g]?.children[l]?.children[c];
+        const celula = grades[g]?.children[l + 1]?.children[c]; // +1 por causa da dica
         if (celula) celula.innerText = letra;
       });
     });
   });
 
-  atualizarTecladoModoAtual(); // aplica cores do teclado do modo atual
+  atualizarTeclado();
 }
-
-
